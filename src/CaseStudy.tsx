@@ -740,19 +740,6 @@ export function CaseStudy({ c, backLabel }: { c: CaseData; backLabel: string }) 
             </li>
           ))}
         </ul>
-
-        {c.partners && (
-          <div className="cs-partners">
-            <h3 lang="en">Public Cases &amp; Partnerships</h3>
-            <ul>
-              {c.partners.map((p) => (
-                <li key={p} className="pill">
-                  {p}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
       </section>
 
       {c.sections.map((s) => (

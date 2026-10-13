@@ -878,8 +878,7 @@
 }
 
 .cs-tags,
-.cs-checks,
-.cs-partners ul {
+.cs-checks {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -1154,8 +1153,7 @@
 }
 
 .cs-text h3,
-.cs-steps h3,
-.cs-partners h3 {
+.cs-steps h3 {
   font-size: 20px;
   font-weight: 700;
   line-height: 1.5;
@@ -1550,11 +1548,6 @@
 /* Event names read as one unit. */
 .cs-proof-caption.is-nowrap {
   white-space: nowrap;
-}
-
-.cs-partners {
-  display: grid;
-  gap: 16px;
 }
 
 /* Goal: copy left, stat cards stacked on the right. */

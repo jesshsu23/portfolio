@@ -85,7 +85,6 @@ export type CaseData = {
   context?: { src: string; alt: string }
   proofHeading?: string
   proof: Proof[]
-  partners?: string[]
   goals?: { label: string; from: string; to: string }[]
   sections: Section[]
 }
@@ -120,7 +119,6 @@ export const vulcan: CaseData = {
     { icon: 'award', label: '產業認可', figure: '第二名', unit: '資安組', caption: '2026 Nexus Luxembourg', nowrap: true },
     { icon: 'globe', label: '跨市場採用', figure: '21', unit: '家企業與專案', caption: '橫跨 4 個市場：台灣、新加坡、泰國、香港' },
   ],
-  partners: ['華南銀行', '台新銀行', 'KBTG', 'NTUC FairPrice Group', 'CPX', 'Astra Tech', 'Presight', 'Kyobo DTS'],
   sections: [
     {
       id: 'pain',
