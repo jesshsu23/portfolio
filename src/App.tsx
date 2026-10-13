@@ -1,120 +1,369 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
+import { content, langNames, type Lang } from './content'
+import { CaseStudy } from './CaseStudy'
+import { cases } from './cases'
+import { GrainGradient } from './GrainGradient'
 import './App.css'
 
+const LANG_KEY = 'jh-lang'
+
+// Sections waiting on final copy. Flip to true once the text is ready.
+const SHOW = { about: false, different: false, record: false, close: false }
+
+function readLang(): Lang {
+  const param = new URLSearchParams(location.search).get('lang')
+  if (param === 'en' || param === 'zh') return param
+  try {
+    const saved = localStorage.getItem(LANG_KEY)
+    if (saved === 'en' || saved === 'zh') return saved
+  } catch {
+    // storage unavailable: fall through to the default
+  }
+  return 'en'
+}
+
+function ArrowUpRight() {
+  return (
+    <svg className="icon" viewBox="0 0 16 16" aria-hidden="true">
+      <path d="M4.5 11.5l7-7M5.5 4.5h6v6" />
+    </svg>
+  )
+}
+
+function Globe() {
+  return (
+    <svg className="icon" viewBox="0 0 16 16" aria-hidden="true">
+      <circle cx="8" cy="8" r="6.25" />
+      <path d="M1.75 8h12.5M8 1.75c1.7 1.8 2.5 3.9 2.5 6.25S9.7 12.45 8 14.25C6.3 12.45 5.5 10.35 5.5 8S6.3 3.55 8 1.75z" />
+    </svg>
+  )
+}
+
+function Accent({ h }: { h: [string, string] }) {
+  return (
+    <>
+      {h[0]}
+      <em className="serif">{h[1]}</em>
+    </>
+  )
+}
+
+function Chevron() {
+  return (
+    <svg className="icon chevron" viewBox="0 0 16 16" aria-hidden="true">
+      <path d="M3.5 6l4.5 4.5L12.5 6" />
+    </svg>
+  )
+}
+
+function LangMenu({ lang, label, onChange }: { lang: Lang; label: string; onChange: (l: Lang) => void }) {
+  const [open, setOpen] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!open) return
+    const close = (e: MouseEvent | KeyboardEvent) => {
+      if (e instanceof KeyboardEvent ? e.key === 'Escape' : !ref.current?.contains(e.target as Node)) {
+        setOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', close)
+    document.addEventListener('keydown', close)
+    return () => {
+      document.removeEventListener('mousedown', close)
+      document.removeEventListener('keydown', close)
+    }
+  }, [open])
+
+  return (
+    <div className="lang" ref={ref}>
+      <button
+        type="button"
+        className="lang-button"
+        aria-haspopup="true"
+        aria-expanded={open}
+        aria-label={`${label}: ${langNames[lang]}`}
+        onClick={() => setOpen((o) => !o)}
+      >
+        <Globe />
+        <span className="lang-name">{langNames[lang]}</span>
+        <Chevron />
+      </button>
+      {open && (
+        <ul className="lang-menu">
+          {(Object.keys(langNames) as Lang[]).map((l) => (
+            <li key={l}>
+              <button
+                type="button"
+                aria-current={l === lang}
+                lang={l === 'zh' ? 'zh-Hant' : 'en'}
+                onClick={() => {
+                  onChange(l)
+                  setOpen(false)
+                }}
+              >
+                {langNames[l]}
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
+
+// Entrance animation: elements marked data-reveal fade up out of a soft blur,
+// on load for the hero and as they scroll into view for the rest.
+function useReveal(key: string) {
+  useEffect(() => {
+    const els = [...document.querySelectorAll<HTMLElement>('[data-reveal]')]
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
+      els.forEach((el) => el.classList.add('is-in'))
+      return
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            e.target.classList.add('is-in')
+            io.unobserve(e.target)
+          }
+        }
+      },
+      { rootMargin: '0px 0px -8% 0px' },
+    )
+    els.forEach((el) => io.observe(el))
+    return () => io.disconnect()
+  }, [key])
+}
+
+// The masthead frosts over once the page has scrolled past the top.
+function useScrolled(threshold = 120) {
+  const [scrolled, setScrolled] = useState(false)
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > threshold)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [threshold])
+  return scrolled
+}
+
+// Case studies live at #/work/<id>; every other hash is an anchor on home.
+const CASES = Object.keys(cases)
+
+function useRoute() {
+  const read = () => {
+    const m = location.hash.match(/^#\/work\/([\w-]+)/)
+    return m && CASES.includes(m[1]) ? m[1] : null
+  }
+  const [route, setRoute] = useState(read)
+  useEffect(() => {
+    const onHash = () => {
+      const next = read()
+      setRoute(next)
+      if (next) {
+        window.scrollTo({ top: 0, behavior: 'instant' })
+      } else {
+        // Wait for home to render, then honour the anchor.
+        requestAnimationFrame(() => {
+          const id = location.hash.slice(1)
+          const el = id && document.getElementById(id)
+          if (el) el.scrollIntoView()
+          else window.scrollTo({ top: 0, behavior: 'instant' })
+        })
+      }
+    }
+    window.addEventListener('hashchange', onHash)
+    return () => window.removeEventListener('hashchange', onHash)
+  }, [])
+  return route
+}
+
 function App() {
-  const [count, setCount] = useState(0)
+  const [lang, setLang] = useState<Lang>(readLang)
+  const t = content[lang]
+  const route = useRoute()
+  useReveal(`${lang}-${route}`)
+  const scrolled = useScrolled()
+
+  useEffect(() => {
+    document.documentElement.lang = lang === 'zh' ? 'zh-Hant' : 'en'
+    try {
+      localStorage.setItem(LANG_KEY, lang)
+    } catch {
+      // not persisted; the menu still works for this visit
+    }
+  }, [lang])
 
   return (
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
+      <a className="skip" href="#main">
+        Skip to content
+      </a>
+      <header className={scrolled ? 'masthead is-scrolled' : 'masthead'}>
+        <div className="masthead-inner">
+          <a className="wordmark" href="#top" lang="en">
+            Jess Hsu
+          </a>
+          <nav className="nav" aria-label="Primary" lang="en">
+            <a href="#work">{t.nav.work}</a>
+            {SHOW.about ? (
+              <a href="#about">{t.nav.about}</a>
+            ) : (
+              <a href="#about" aria-disabled="true" className="is-pending">
+                {t.nav.about}
               </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
+            )}
+            <a href={`${import.meta.env.BASE_URL}resume-${lang}.pdf`} target="_blank" rel="noreferrer">
+              {t.nav.resume}
+            </a>
+          </nav>
+          <LangMenu lang={lang} label={t.langLabel} onChange={setLang} />
+        </div>
+      </header>
+
+      {route ? (
+        <main id="main" className="page">
+          <CaseStudy key={route} c={cases[route]} backLabel={t.works.back} />
+        </main>
+      ) : (
+      <main id="main" className="page">
+        <section className="hero" id="top" aria-labelledby="greeting">
+          <div className="hero-glow" aria-hidden="true">
+            <GrainGradient />
+          </div>
+          <div className="hero-copy">
+            <h1 id="greeting" className="greeting" lang="en" data-reveal style={{ '--d': 1 } as CSSProperties}>
+              {t.hero.greeting[0]}
+              <strong className="greeting-name">{t.hero.greeting[1]}</strong>
+            </h1>
+            <p className="role" data-reveal style={{ '--d': 2 } as CSSProperties}>
+              <span className="experience">{t.hero.experience}</span>
+              <span className="role-title" lang="en">{t.hero.role}</span>
+            </p>
+            <p className="tagline" data-reveal style={{ '--d': 3 } as CSSProperties}>
+              {t.hero.tagline.map((seg, i) =>
+                typeof seg === 'string' ? seg : <strong key={i}>{seg.em}</strong>,
+              )}
+            </p>
+          </div>
+        </section>
+
+        {SHOW.about && (
+          <section className="about card" id="about" aria-labelledby="about-h">
+            <h2 id="about-h" className="card-h">
+              <Accent h={t.about.heading} />
+            </h2>
+            <p>{t.about.body}</p>
+            <a className="button is-pending" href="#about" aria-disabled="true">
+              {t.about.more}
+            </a>
+          </section>
+        )}
+
+        <section className="works" id="work" aria-labelledby="work-h">
+          <h2 id="work-h" className="section-h" lang="en" data-reveal>
+            <Accent h={t.works.heading} />
+          </h2>
+          <ul className="work-list">
+            {t.works.items.map((w) => (
+              <li className={w.href ? 'work card is-link' : 'work card'} key={w.id} data-reveal>
+                <div className="work-image">
+                  <img
+                    className="work-media"
+                    src={`${import.meta.env.BASE_URL}works/${w.id}.jpg`}
+                    alt={`${w.name} ${t.works.imageAlt}`}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+                <div className="work-copy">
+                  <span className="pill">{w.domain}</span>
+                  <h3 lang="en">
+                    {w.href ? (
+                      <a className="work-link" href={w.href}>
+                        {w.name}
+                      </a>
+                    ) : (
+                      w.name
+                    )}
+                  </h3>
+                  <p>{w.summary}</p>
+                  <div className="work-foot">
+                    <span>{w.href ? t.works.open : t.works.status}</span>
+                    <span className={w.href ? 'round-button' : 'round-button is-pending'} aria-hidden="true">
+                      <ArrowUpRight />
+                    </span>
+                  </div>
+                </div>
+              </li>
+            ))}
           </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+        </section>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
+        {SHOW.different && (
+          <section className="different card" aria-labelledby="diff-h">
+            <h2 id="diff-h" className="section-h">
+              <Accent h={t.different.heading} />
+            </h2>
+            <ol className="strengths">
+              {t.different.items.map((s) => (
+                <li key={s.title}>
+                  <h3>{s.title}</h3>
+                  <p>{s.body}</p>
+                </li>
+              ))}
+            </ol>
+          </section>
+        )}
+
+        {SHOW.record && (
+          <section className="record" aria-labelledby="record-h">
+            <h2 id="record-h" className="section-h">
+              <Accent h={t.record.heading} />
+            </h2>
+            <p className="section-sub">{t.record.note}</p>
+            <ul className="quotes">
+              {t.record.items.map((r, i) => (
+                <li className="quote card" key={i} role="img" aria-label={`${r.label}: ${t.record.withheld}`}>
+                  <svg className="quote-mark" viewBox="0 0 48 32" aria-hidden="true">
+                    <path d="M0 32V19.5C0 8.6 5.2 2.1 15.5 0l2 4.3C11.6 6 8.6 9.6 8.4 15H17v17H0zm27 0V19.5C27 8.6 32.2 2.1 42.5 0l2 4.3C38.6 6 35.6 9.6 35.4 15H44v17H27z" />
+                  </svg>
+                  <span className="lines">
+                    <span />
+                    <span />
+                    <span />
+                    <span />
+                  </span>
+                  <span className="byline">
+                    <span className="avatar" />
+                    <span className="lines lines-short">
+                      <span />
+                      <span />
+                    </span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {SHOW.close && (
+          <section className="close" aria-labelledby="close-h">
+            <h2 id="close-h">
+              <Accent h={t.close.heading} />
+            </h2>
+            <p>{t.close.body}</p>
+            <p className="close-pending">{t.close.pending}</p>
+          </section>
+        )}
+      </main>
+      )}
+
+      <footer className="foot" lang="en">
+        <span>© 2026 Jess Hsu</span>
+      </footer>
     </>
   )
 }
