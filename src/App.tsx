@@ -1,11 +1,15 @@
-import { useEffect, useRef, useState, type CSSProperties } from 'react'
+import { lazy, Suspense, useEffect, useRef, useState, type CSSProperties } from 'react'
 import { content, langNames, type Lang } from './content'
-import { CaseStudy } from './CaseStudy'
-import { cases } from './cases'
+import { caseIds } from './cases/ids'
 import { GrainGradient } from './GrainGradient'
+import { About } from './About'
 import './App.css'
 
 const LANG_KEY = 'jh-lang'
+
+// Case studies (components + copy) load on demand; home stays light.
+const loadCaseRoute = () => import('./CaseRoute')
+const CaseRoute = lazy(loadCaseRoute)
 
 // Sections waiting on final copy. Flip to true once the text is ready.
 const SHOW = { about: false, different: false, record: false, close: false }
@@ -149,11 +153,14 @@ function useScrolled(threshold = 120) {
   return scrolled
 }
 
-// Case studies live at #/work/<id>; every other hash is an anchor on home.
-const CASES = Object.keys(cases)
+// Case studies live at #/work/<id>, the About page at #/about; every other
+// hash is an anchor on home.
+const CASES = caseIds
+const ABOUT = 'about'
 
 function useRoute() {
   const read = () => {
+    if (/^#\/about\/?$/.test(location.hash)) return ABOUT
     const m = location.hash.match(/^#\/work\/([\w-]+)/)
     return m && CASES.includes(m[1]) ? m[1] : null
   }
@@ -187,6 +194,12 @@ function App() {
   useReveal(`${lang}-${route}`)
   const scrolled = useScrolled()
 
+  // Warm the case study chunk once home is idle, so opening one feels instant.
+  useEffect(() => {
+    const ric = window.requestIdleCallback ?? ((cb: () => void) => setTimeout(cb, 1500))
+    ric(() => void loadCaseRoute())
+  }, [])
+
   useEffect(() => {
     document.documentElement.lang = lang === 'zh' ? 'zh-Hant' : 'en'
     try {
@@ -208,13 +221,9 @@ function App() {
           </a>
           <nav className="nav" aria-label="Primary" lang="en">
             <a href="#work">{t.nav.work}</a>
-            {SHOW.about ? (
-              <a href="#about">{t.nav.about}</a>
-            ) : (
-              <a href="#about" aria-disabled="true" className="is-pending">
-                {t.nav.about}
-              </a>
-            )}
+            <a href="#/about" aria-current={route === ABOUT ? 'page' : undefined}>
+              {t.nav.about}
+            </a>
             <a href={`${import.meta.env.BASE_URL}resume-${lang}.pdf`} target="_blank" rel="noreferrer">
               {t.nav.resume}
             </a>
@@ -223,9 +232,15 @@ function App() {
         </div>
       </header>
 
-      {route ? (
+      {route === ABOUT ? (
         <main id="main" className="page">
-          <CaseStudy key={route} c={cases[route]} backLabel={t.works.back} />
+          <About lang={lang} backLabel={t.works.back} />
+        </main>
+      ) : route ? (
+        <main id="main" className="page">
+          <Suspense fallback={null}>
+            <CaseRoute id={route} backLabel={t.works.back} />
+          </Suspense>
         </main>
       ) : (
       <main id="main" className="page">
@@ -272,7 +287,7 @@ function App() {
                 <div className="work-image">
                   <img
                     className="work-media"
-                    src={`${import.meta.env.BASE_URL}works/${w.id}.jpg`}
+                    src={`${import.meta.env.BASE_URL}works/${w.id}.webp`}
                     alt={`${w.name} ${t.works.imageAlt}`}
                     loading="lazy"
                     decoding="async"
