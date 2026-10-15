@@ -14,7 +14,7 @@ type Work = {
   id: string
   href?: string
   name: string
-  domain: string
+  period: string
   summary: string
 }
 
@@ -86,9 +86,9 @@ export const content: Record<Lang, Content> = {
       back: 'Back to work',
       status: 'Case study in preparation',
       items: [
-        { id: 'vulcan', href: '#/work/vulcan', name: 'Vulcan', domain: 'GenAI safety', summary: 'A tool for the safety, security, and compliance of generative AI.' },
-        { id: 'lazyotter', href: '#/work/lazyotter', name: 'LazyOtter', domain: 'Crypto', summary: 'A crypto yield aggregator.' },
-        { id: 'cymetrics', name: 'Cymetrics', domain: 'Security SaaS', summary: 'A SaaS platform for security testing.' },
+        { id: 'vulcan', href: '#/work/vulcan', name: 'Vulcan', period: '2025-Present', summary: 'A tool for the safety, security, and compliance of generative AI.' },
+        { id: 'lazyotter', href: '#/work/lazyotter', name: 'LazyOtter', period: '2022-2024', summary: 'A crypto yield aggregator.' },
+        { id: 'cymetrics', name: 'Cymetrics', period: '2021-2022', summary: 'A SaaS platform for security testing.' },
       ],
     },
     different: {
@@ -141,9 +141,9 @@ export const content: Record<Lang, Content> = {
       back: 'Back to work',
       status: '案例整理中',
       items: [
-        { id: 'vulcan', href: '#/work/vulcan', name: 'Vulcan', domain: 'GenAI 安全', summary: 'GenAI 安全、保障和合規工具。' },
-        { id: 'lazyotter', href: '#/work/lazyotter', name: 'LazyOtter', domain: '加密貨幣', summary: '加密貨幣收益聚合器。' },
-        { id: 'cymetrics', name: 'Cymetrics', domain: '資安 SaaS', summary: 'SaaS 資訊安全檢測平台。' },
+        { id: 'vulcan', href: '#/work/vulcan', name: 'Vulcan', period: '2025-Present', summary: 'GenAI 安全、保障和合規工具' },
+        { id: 'lazyotter', href: '#/work/lazyotter', name: 'LazyOtter', period: '2022-2024', summary: '加密貨幣收益聚合器' },
+        { id: 'cymetrics', name: 'Cymetrics', period: '2021-2022', summary: 'SaaS 資訊安全檢測平台' },
       ],
     },
     different: {

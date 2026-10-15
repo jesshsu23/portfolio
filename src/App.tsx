@@ -301,7 +301,7 @@ function App() {
                   {w.id === 'cymetrics' && <span className="work-glass" aria-hidden="true" />}
                 </div>
                 <div className="work-copy">
-                  <span className="pill">{w.domain}</span>
+                  <span className="pill">{w.period}</span>
                   <h3 lang="en">
                     {w.href ? (
                       <a className="work-link" href={w.href}>
