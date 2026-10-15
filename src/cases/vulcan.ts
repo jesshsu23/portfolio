@@ -98,7 +98,7 @@ const I = (name: string, alt: string, extra: Partial<Img> = {}): Img => ({
 export const vulcan: CaseData = {
   id: 'vulcan',
   name: 'Vulcan',
-  lede: '將複雜的生成式 AI 風險，轉化為可行動、可擴展的安全體驗',
+  lede: '讓複雜的生成式 AI 風險更容易理解，幫助團隊及早辨識、有效處理',
   tags: ['企業級 B2B SaaS', '生成式 AI 安全'],
   cover: 'works/vulcan-cover.jpg',
   coverAlt: 'Vulcan 產品介面展示',
