@@ -396,6 +396,20 @@
   mask-image: linear-gradient(to bottom, #000 72%, transparent);
 }
 
+/* Liquid blob: no purple wash behind it; the static fallback is a soft
+   multicolour disc where the blob sits. */
+.hero-glow.is-blob {
+  background:
+    radial-gradient(circle at 74% 50%, rgb(120 120 255 / 0.55), rgb(230 90 230 / 0.35) 12%, transparent 17%),
+    var(--ground);
+}
+
+@media (max-width: 860px) {
+  .hero-glow.is-blob {
+    background: var(--ground);
+  }
+}
+
 .grain-gradient {
   display: block;
   width: 100%;
@@ -423,6 +437,74 @@
 @media (min-width: 760px) {
   .tagline:lang(zh-Hant) {
     font-size: clamp(1.4rem, 2.8vw, 2.5rem);
+  }
+}
+
+/* ---------- scroll badge ---------- */
+
+.scroll-badge-wrap {
+  margin-top: clamp(20px, 2.4vw, 32px);
+}
+
+.scroll-badge {
+  display: block;
+  width: clamp(96px, 9vw, 120px);
+  color: var(--text-2);
+  transition: color 250ms ease;
+}
+
+.scroll-badge svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+.scroll-badge text {
+  fill: currentColor;
+  font-family: var(--display);
+  font-size: 8.4px;
+  font-weight: 500;
+}
+
+.scroll-badge line {
+  stroke: currentColor;
+  stroke-width: 0.9;
+  stroke-linecap: round;
+  opacity: 0.6;
+}
+
+.scroll-badge-ring {
+  transform-box: view-box;
+  transform-origin: 50% 50%;
+  animation: badge-spin 24s linear infinite;
+}
+
+.scroll-badge-arrow {
+  fill: none;
+  stroke: var(--text);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 300ms var(--ease-out);
+}
+
+.scroll-badge:hover {
+  color: var(--lavender-ink);
+}
+
+.scroll-badge:hover .scroll-badge-arrow {
+  transform: translateY(4px);
+}
+
+@keyframes badge-spin {
+  to {
+    rotate: 360deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-badge-ring {
+    animation: none;
   }
 }
 

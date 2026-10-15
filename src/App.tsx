@@ -1,7 +1,9 @@
 import { lazy, Suspense, useEffect, useRef, useState, type CSSProperties } from 'react'
 import { content, langNames, type Lang } from './content'
 import { caseIds } from './cases/ids'
-import { GrainGradient } from './GrainGradient'
+// Hero visual. GrainGradient (the earlier wave) stays in the repo to swap back.
+import { LiquidBlob } from './LiquidBlob'
+import { ScrollBadge } from './ScrollBadge'
 import { About } from './About'
 import './App.css'
 
@@ -245,8 +247,8 @@ function App() {
       ) : (
       <main id="main" className="page">
         <section className="hero" id="top" aria-labelledby="greeting">
-          <div className="hero-glow" aria-hidden="true">
-            <GrainGradient />
+          <div className="hero-glow is-blob" aria-hidden="true">
+            <LiquidBlob />
           </div>
           <div className="hero-copy">
             <h1 id="greeting" className="greeting" lang="en" data-reveal style={{ '--d': 1 } as CSSProperties}>
@@ -262,6 +264,9 @@ function App() {
                 typeof seg === 'string' ? seg : <strong key={i}>{seg.em}</strong>,
               )}
             </p>
+            <div className="scroll-badge-wrap" data-reveal style={{ '--d': 4 } as CSSProperties}>
+              <ScrollBadge label="Scroll down to selected works" href="#work" />
+            </div>
           </div>
         </section>
 
