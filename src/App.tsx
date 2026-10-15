@@ -297,6 +297,8 @@ function App() {
                     loading="lazy"
                     decoding="async"
                   />
+                  {/* Case study not yet published: the cover sits behind frosted glass. */}
+                  {w.id === 'cymetrics' && <span className="work-glass" aria-hidden="true" />}
                 </div>
                 <div className="work-copy">
                   <span className="pill">{w.domain}</span>

@@ -3998,3 +3998,14 @@
 .ab h3:lang(zh-Hant) {
   word-break: keep-all;
 }
+
+/* ---------- frosted cover (Cymetrics) ---------- */
+
+/* The whole cover sits behind frosted glass: only the blur, no pane drawn. */
+.work-glass {
+  position: absolute;
+  inset: 0;
+  background: rgb(0 0 0 / 0.2);
+  -webkit-backdrop-filter: blur(5px) saturate(150%);
+  backdrop-filter: blur(5px) saturate(150%);
+}
