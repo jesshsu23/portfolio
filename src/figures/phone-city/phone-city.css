@@ -1,0 +1,72 @@
+/* Phone + city figure. Kit tokens tuned to the site's dark ground, with the
+   site's lavender as the one lit accent. */
+.pc {
+  --anatomy-paper: var(--ground);
+  --anatomy-face: #222227;
+  --anatomy-top: #212126;
+  --anatomy-shade-0: #121215;
+  --anatomy-shade-1: #151518;
+  --anatomy-shade-2: #18181c;
+  --anatomy-shade-3: #1c1c20;
+  --anatomy-lit-top: #2c2a36;
+  --anatomy-lit-shade: #23222b;
+  --anatomy-hi: #d6d8de;
+  --anatomy-mid: #6c6e76;
+  --anatomy-lo: #3f4047;
+  --anatomy-faint: #2b2b31;
+  --anatomy-lit: var(--lavender);
+  --anatomy-dot: #e6e6ea;
+  --anatomy-text: var(--text-2);
+  --anatomy-muted: var(--text-3);
+  --pc-glass: #060608;
+  --pc-screen: #0d0d11;
+  --pc-road: #1a1a1f;
+  --pc-block: #25252c;
+  --pc-park: #1f2321;
+  --pc-bld: #3a3a43;
+  --pc-field: #1e1e24;
+}
+
+.pc .iso-stage {
+  touch-action: pan-y;
+}
+
+/* Screen */
+.pc-glass { fill: var(--pc-glass); }
+.pc-screen { fill: var(--pc-screen); }
+.pc-island { fill: #000; }
+.pc-field { fill: var(--pc-field); }
+.pc-fill-mid { fill: var(--anatomy-mid); }
+.pc-t {
+  fill: var(--anatomy-mid);
+  font-family: var(--sans);
+  font-weight: 500;
+}
+.pc-strong { fill: var(--anatomy-hi); font-weight: 600; }
+
+/* Map, and what moves on it */
+.pc-road { fill: var(--pc-road); }
+.pc-mblock { fill: var(--pc-block); }
+.pc-mpark { fill: var(--pc-park); }
+.pc-mpond { fill: var(--pc-road); }
+.pc-mbld { fill: var(--pc-bld); transition: fill 0.3s var(--anatomy-ease); }
+.pc-mbld[data-on] { fill: var(--anatomy-lit); }
+.pc-mdot { fill: var(--anatomy-lit); }
+.pc-mdot-dim { fill: var(--anatomy-hi); opacity: 0.7; }
+.pc-icar { fill: none; stroke: var(--anatomy-lit); stroke-linecap: round; stroke-linejoin: round; vector-effect: none; }
+.pc-iwalker { fill: var(--anatomy-lit); }
+
+/* People */
+.pc-head { fill: var(--anatomy-hi); }
+.pc-head-lit { fill: var(--anatomy-lit); }
+
+/* City */
+.pc-win { fill: var(--anatomy-lit); opacity: 0; transition: opacity 1.6s var(--anatomy-ease); }
+.pc-win[data-on] { opacity: 0.32; }
+.pc-bld { cursor: pointer; }
+.pc-bld[data-on] .iso-edge { stroke: var(--anatomy-lit); }
+.pc-bld[data-on] .iso-top { fill: var(--anatomy-lit-top); }
+
+@media (prefers-reduced-motion: reduce) {
+  .pc-win, .pc-mbld { transition: none; }
+}

@@ -1,8 +1,11 @@
-import { useState, type CSSProperties } from 'react'
+import { lazy, Suspense, useState, type CSSProperties } from 'react'
 import { about } from './about-content'
 import type { Lang } from './content'
 
 const base = import.meta.env.BASE_URL + 'about/'
+
+// The phone + city figure is a large generated SVG, so it loads on its own.
+const PhoneCity = lazy(() => import('./figures/phone-city/PhoneCity'))
 
 // The portrait enters as this many vertical strips, one after another.
 const STRIPS = 6
@@ -128,12 +131,22 @@ export function About({ lang, backLabel }: { lang: Lang; backLabel: string }) {
       </section>
 
       <section className="ab-section ab-practice" aria-labelledby="ab-practice">
-        <h2 id="ab-practice" className="ab-statement" {...reveal()}>
-          {a.practice.heading}
-        </h2>
-        <p className="ab-lead" {...reveal(1)}>
-          {a.practice.body}
-        </p>
+        {/* The statement on the left, the phone + city figure on the right. */}
+        <div className="ab-practice-intro">
+          <div>
+            <h2 id="ab-practice" className="ab-statement" {...reveal()}>
+              {a.practice.heading}
+            </h2>
+            <p className="ab-lead" {...reveal(1)}>
+              {a.practice.body}
+            </p>
+          </div>
+          <div className="ab-fig" lang="en" {...reveal(1)}>
+            <Suspense fallback={<div className="ab-fig-hold" />}>
+              <PhoneCity />
+            </Suspense>
+          </div>
+        </div>
 
         <div className="ab-block">
           <h3 className="ab-sub" lang="en" {...reveal()}>

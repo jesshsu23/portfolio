@@ -3944,6 +3944,19 @@
   padding-top: clamp(112px, 13vw, 176px);
 }
 
+/* The practice statement and lead on the left, the phone + city figure on
+   the right. */
+.ab-practice-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+}
+
+.ab-fig-hold {
+  aspect-ratio: 600 / 398;
+}
+
 .ab-statement {
   max-width: 20em;
   font-size: clamp(1.85rem, 3.6vw, 2.9rem);
@@ -4044,6 +4057,17 @@
 }
 
 @media (max-width: 860px) {
+  .ab-practice-intro {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* Stacked under the text: pull the drawing's own margin back so the
+     plate's left corner lines up with the text. */
+  .ab-fig {
+    max-width: 480px;
+    margin-left: calc(min(480px, 100%) * -0.033);
+  }
+
   .ab-hero {
     grid-template-columns: minmax(0, 1fr);
     min-height: 0;
