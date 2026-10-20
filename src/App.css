@@ -450,7 +450,6 @@
   display: block;
   width: clamp(96px, 9vw, 120px);
   color: var(--text-2);
-  transition: color 250ms ease;
 }
 
 .scroll-badge svg {
@@ -486,10 +485,6 @@
   stroke-linecap: round;
   stroke-linejoin: round;
   transition: transform 300ms var(--ease-out);
-}
-
-.scroll-badge:hover {
-  color: var(--lavender-ink);
 }
 
 .scroll-badge:hover .scroll-badge-arrow {
