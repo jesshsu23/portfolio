@@ -1382,6 +1382,16 @@
   border-radius: var(--radius);
 }
 
+/* Frameless diagrams on a dark ground: lighten lets the page show through
+   the image's own dark backdrop, so no box edge remains. */
+.cs-frame.is-bare .cs-zoom {
+  background: none;
+}
+
+.cs-frame.is-bare img {
+  mix-blend-mode: lighten;
+}
+
 .cs-frame.is-square .cs-zoom {
   border-radius: 0;
 }
@@ -1516,6 +1526,15 @@
 
 .cs-cards > li.cs-note p {
   margin-top: 12px;
+}
+
+/* Two notes per row: more air between them, and titles at full size. */
+.cs-cards.is-note.is-pair {
+  gap: clamp(20px, 3vw, 40px);
+}
+
+.cs-cards.is-pair > li.cs-note h3 {
+  font-size: 18px;
 }
 
 @media (max-width: 1100px) {
@@ -3676,36 +3695,118 @@
   color: var(--text-3);
 }
 
-/* Intro: portrait and a short self-introduction in one card. */
-.ab-intro {
+/* Opening: full-bleed split. Copy on the dark half, aligned to the page
+   column; the portrait fills the right half up to the viewport edge. */
+.ab-hero {
+  --col: max(var(--gutter), calc((100vw - 1040px) / 2));
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  align-items: center;
-  gap: clamp(32px, 5vw, 64px);
-  padding: clamp(28px, 4.4vw, 56px);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 47.5%);
+  width: 100vw;
+  min-height: max(560px, calc(100svh - 72px));
+  margin: calc(-1 * clamp(40px, 5vw, 72px)) 0 0 calc(50% - 50vw);
 }
 
-.ab-portrait {
-  width: clamp(168px, 18vw, 232px);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  box-shadow:
-    0 0 0 1px rgb(255 255 255 / 0.08),
-    0 0 32px -10px rgb(var(--glow) / 0.4);
+.ab-hero-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(48px, 7vw, 96px) clamp(32px, 5vw, 80px) clamp(40px, 5vw, 64px) var(--col);
 }
 
-.ab-intro-copy h1 {
-  font-size: clamp(1.6rem, 2.6vw, 2.2rem);
-  line-height: 1.25;
+.ab-hero-title {
+  display: grid;
+  font-size: clamp(4rem, 9vw, 8.25rem);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.035em;
+  color: var(--lavender);
 }
 
-.ab-intro-copy p {
-  max-width: 36em;
-  margin-top: 14px;
-  font-size: clamp(1.02rem, 1.3vw, 1.1rem);
-  line-height: 1.85;
-  color: var(--text-2);
+.ab-hero-word {
+  animation: ab-slide-in 1100ms var(--ease-out) 150ms both;
 }
+
+.ab-hero-word.is-second {
+  animation-delay: 380ms;
+}
+
+@keyframes ab-slide-in {
+  from {
+    opacity: 0;
+    translate: -48px 0;
+  }
+}
+
+.ab-hero-text {
+  max-width: 30em;
+  margin-top: clamp(40px, 5vw, 64px);
+  animation: ab-fade-in 1100ms var(--ease-out) 750ms both;
+}
+
+.ab-hero-text p {
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--text);
+}
+
+.ab-signature {
+  display: block;
+  width: clamp(150px, 15vw, 210px);
+  height: auto;
+  margin-top: clamp(40px, 6vw, 88px);
+}
+
+@keyframes ab-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Portrait: six vertical strips of one image, each rising into view in
+   turn from left to right, so the photo assembles like blinds opening. */
+.ab-hero-photo {
+  position: relative;
+  overflow: hidden;
+  background: var(--ground);
+}
+
+.ab-strip-cell {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--i) * 100% / 6);
+  width: calc(100% / 6 + 1px);
+  overflow: hidden;
+  animation: ab-strip-in 1000ms cubic-bezier(0.65, 0, 0.15, 1) calc(250ms + var(--i) * 90ms) both;
+}
+
+.ab-strip-cell img {
+  position: absolute;
+  top: 0;
+  left: calc(var(--i) * -100% + var(--i) * 6px / 6);
+  width: calc(600% - 6px);
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: 40% 30%;
+  animation: ab-strip-img 1400ms var(--ease-out) calc(250ms + var(--i) * 90ms) both;
+}
+
+@keyframes ab-strip-in {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes ab-strip-img {
+  from {
+    translate: 0 8%;
+  }
+}
+
 
 .ab-section {
   padding-top: clamp(80px, 9vw, 120px);
@@ -3948,10 +4049,19 @@
 }
 
 @media (max-width: 860px) {
-  .ab-intro {
+  .ab-hero {
     grid-template-columns: minmax(0, 1fr);
-    justify-items: start;
+    min-height: 0;
   }
+
+  .ab-hero-copy {
+    padding: clamp(40px, 8vw, 64px) var(--gutter) clamp(40px, 8vw, 56px);
+  }
+
+  .ab-hero-photo {
+    aspect-ratio: 4 / 5;
+  }
+
 
   .ab-skills {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -3983,6 +4093,13 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .ab-hero-word,
+  .ab-hero-text,
+  .ab-strip-cell,
+  .ab-strip-cell img {
+    animation: none;
+  }
+
   .ab-strip {
     overflow-x: auto;
   }

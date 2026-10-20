@@ -102,7 +102,7 @@ export const vulcan: CaseData = {
   tags: ['企業級 B2B SaaS', '生成式 AI 安全'],
   cover: 'works/vulcan-cover.jpg',
   coverAlt: 'Vulcan 產品介面展示',
-  context: { src: 'works/vulcan/context.jpg', alt: '資安人員在筆電上檢視 Vulcan 資產關聯與風險偵測畫面' },
+  context: { src: 'works/vulcan/context.jpg', alt: '在筆電上檢視數據儀表板的工作情境' },
   meta: [
     { label: '專案期間', value: '2025 年至今' },
     { label: '合作對象', value: '產品經理團隊、工程師團隊、產品設計師' },
@@ -157,7 +157,7 @@ export const vulcan: CaseData = {
         {
           kind: 'cards',
           note: true,
-          cols: 4,
+          cols: 2,
           items: [
             { title: '複雜資訊的分層與轉譯', body: '測試結果同時包含模型、攻擊手法、風險等級、技術證據與修復建議。設計需要讓不同專業程度的使用者快速掌握重點，並找到下一步行動。' },
             { title: '多條件流程的引導與回饋', body: '使用者必須依序完成政策、測試策略、模型端點與專案設定。設計需要清楚呈現前置條件、當前進度與異常狀態，避免使用者設定錯誤或不知道下一步。' },
@@ -172,16 +172,14 @@ export const vulcan: CaseData = {
       heading: '設計決策',
       blocks: [
         {
-          kind: 'text',
-          heading: '以雙軌方式建立可規模化的體驗基礎',
-          full: true,
+          kind: 'split',
+          heading: '以雙軌設計打造可規模化的產品體驗',
           body: [
-            '面對高資訊密度、複雜的設定與系統狀態、多角色協作，以及跨市場擴張帶來的一致性需求，我們意識到，僅逐頁改善流程與介面，無法長期支撐產品成長。',
-            '因此，我們決定採取雙軌設計：在優化 Vulcan 核心流程與互動細節的同時，同步建立 OneSleeve Design System，並將共用模式逐步應用至 Cymetrics 等公司其他產品。',
-            'OneSleeve 不只是元件庫，而是將產品設計中反覆出現的資訊架構、互動模式與系統回饋，沉澱為跨產品可複用的規則。產品情境持續驗證並完善 Design System，系統規範則反過來支援新功能與其他產品，降低重複設計及實作差異，為跨產品、跨語言與跨市場發展建立一致且可擴充的基礎。',
+            '面對複雜的產品流程、高資訊密度及跨市場的一致性需求，我們採取雙軌策略：在優化 Vulcan 核心流程與互動體驗的同時，同步建立 OneSleeve Design System，並將共用設計模式逐步延伸至 Cymetrics 等其他產品。',
+            '透過實際產品需求持續驗證與完善 Design System，將共通的互動模式、元件及設計規範轉化為可複用的標準，減少重複設計、提升開發效率與跨產品一致性，為未來的產品擴展奠定基礎。',
           ],
+          img: I('approach', '設計方法圖：整合產品、資安、工程與商業需求，經需求轉譯後分為流程與互動設計、設計系統化兩軌，形成可落地且可擴充的產品體驗，並透過跨團隊校準持續對齊', { static: true, bare: true }),
         },
-        { kind: 'image', img: I('approach', '設計方法圖：整合產品、資安、工程與商業需求，經需求轉譯後分為流程與互動設計、設計系統化兩軌，形成可落地且可擴充的產品體驗，並透過跨團隊校準持續對齊', { static: true }) },
       ],
     },
     {
@@ -193,7 +191,6 @@ export const vulcan: CaseData = {
         {
           kind: 'text',
           heading: '主要用戶',
-          center: true,
           body: ['導入或開發生成式 AI 應用的中大型企業及公部門單位，特別聚焦以下高監管、高風險產業：'],
           list: [
             '金融與保險業：銀行、證券、保險公司導入 AI Copilot、客服助理或智能授信系統。',
@@ -206,12 +203,14 @@ export const vulcan: CaseData = {
         {
           kind: 'text',
           heading: '使用情境',
+          full: true,
           body: ['我們先以典型工作流程設計了第一版的測試流程，並再根據內部團隊測試，改善優化檢視設定 AI 攻擊測試、執行評測與查看結果的操作流程，並依據回饋調整設計，讓測試對象、設定與結果之間的關係更清楚。'],
         },
         { kind: 'steps', title: '典型工作流程', items: ['定義範圍', '執行測試', '判讀風險', '推動修復', '上線決策'] },
         {
           kind: 'text',
           heading: '使用者旅程圖',
+          full: true,
           body: ['特定用戶為負責 AI 安全評測的工程師／資安人員：客服 AI 上線前，需要安排安全測試並確認風險，目標是針對正確的 AI 與風險範圍完成評測，取得可追溯的結果。'],
         },
         { kind: 'image', img: I('journey', '使用者旅程圖：確認評測對象、規劃測試內容、確認並執行測試、解讀與追蹤結果四個階段的使用者行為、心中疑問與潛在痛點，以及機會與預期價值', { static: true, panel: true }) },

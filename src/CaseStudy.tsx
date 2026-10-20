@@ -333,7 +333,7 @@ function BlockView({ b }: { b: Block }) {
           </ol>
         )
       return (
-        <ul className={b.note ? 'cs-cards is-note' : 'cs-cards'} style={{ '--cols': b.cols ?? 3 } as CSSProperties}>
+        <ul className={b.note ? `cs-cards is-note${b.cols === 2 ? ' is-pair' : ''}` : 'cs-cards'} style={{ '--cols': b.cols ?? 3 } as CSSProperties}>
           {b.items.map((c) => (
             <li key={c.title} className={b.note ? 'cs-note' : 'cs-card'}>
               {c.icon && <Tile icon={c.icon} />}

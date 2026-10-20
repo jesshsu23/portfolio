@@ -4,6 +4,9 @@ import type { Lang } from './content'
 
 const base = import.meta.env.BASE_URL + 'about/'
 
+// The portrait enters as this many vertical strips, one after another.
+const STRIPS = 6
+
 function Accent({ h }: { h: [string, string] }) {
   return (
     <>
@@ -47,11 +50,26 @@ export function About({ lang, backLabel }: { lang: Lang; backLabel: string }) {
 
   return (
     <article className="ab">
-      <section className="ab-intro card" {...reveal(1)}>
-        <Photo className="ab-portrait" src={`${base}portrait.jpg`} alt={a.intro.photoAlt} pending={a.photoPending} />
-        <div className="ab-intro-copy">
-          <h1>{a.intro.body[0]}</h1>
-          <p>{a.intro.body[1]}</p>
+      {/* Opening: "ABOUT ME." and the intro on the left, the portrait on the
+          right revealed strip by strip. */}
+      <section className="ab-hero" aria-labelledby="ab-hero-h">
+        <div className="ab-hero-copy">
+          <h1 id="ab-hero-h" className="ab-hero-title" lang="en">
+            <span className="ab-hero-word">ABOUT</span>
+            <span className="ab-hero-word is-second">ME.</span>
+          </h1>
+          <div className="ab-hero-text">
+            <p>{a.intro.body[0]}</p>
+            <p>{a.intro.body[1]}</p>
+            <img className="ab-signature" src={`${base}signature.png`} alt="Hui-Hsuan" />
+          </div>
+        </div>
+        <div className="ab-hero-photo" role="img" aria-label={a.intro.photoAlt}>
+          {Array.from({ length: STRIPS }, (_, i) => (
+            <span key={i} className="ab-strip-cell" style={{ '--i': i } as CSSProperties}>
+              <img src={`${base}about-photo.jpg`} alt="" decoding="async" />
+            </span>
+          ))}
         </div>
       </section>
 
