@@ -3702,10 +3702,28 @@
 }
 
 .ab-hero-copy {
+  position: relative;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: clamp(48px, 7vw, 96px) clamp(32px, 5vw, 80px) clamp(40px, 5vw, 64px) var(--col);
+}
+
+/* Same grid as the home hero: 56px cells, 1px lines, fading toward the
+   bottom. Drawn on a pseudo-element so the fade never touches the copy. */
+.ab-hero-copy::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(to right, #1a1a1c 1px, transparent 1px),
+    linear-gradient(to bottom, #1a1a1c 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: linear-gradient(to bottom, #000 45%, transparent);
+  mask-image: linear-gradient(to bottom, #000 45%, transparent);
+  pointer-events: none;
 }
 
 .ab-hero-title {
@@ -3724,6 +3742,31 @@
 .ab-hero-word.is-second {
   animation-delay: 380ms;
 }
+
+/* The orb stands in for the full stop. Its box carries room for the soft
+   edge, so it is wider than the dot it draws and sits a little low. */
+.ab-hero-dot {
+  display: inline-block;
+  width: 0.44em;
+  height: auto;
+  margin-left: 0.01em;
+  vertical-align: -0.07em;
+  overflow: visible;
+}
+
+/* Colours turn around the dot's centre, as the home blob's balls circle
+   theirs; the outline itself stays put. */
+.ab-dot-swirl {
+  transform-origin: 328px 268px;
+  animation: ab-dot-swirl 9s linear infinite;
+}
+
+@keyframes ab-dot-swirl {
+  to {
+    rotate: 360deg;
+  }
+}
+
 
 @keyframes ab-slide-in {
   from {
@@ -4082,6 +4125,7 @@
   }
 
 
+
   .ab-skills {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -4114,6 +4158,7 @@
 @media (prefers-reduced-motion: reduce) {
   .ab-hero-word,
   .ab-hero-text,
+  .ab-dot-swirl,
   .ab-strip-cell,
   .ab-strip-cell img {
     animation: none;

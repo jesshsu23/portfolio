@@ -43,6 +43,47 @@ function Logo({ id, mark }: { id: string; mark: string }) {
   )
 }
 
+// The full stop after "ME": the home page's liquid blob in its merged,
+// rounded shape, its colours slowly turning inside the outline. Colour fields blend inside the outline, film grain sits on top,
+// and the mask softens the edge.
+const ORB_PATH =
+  'M175 250 C170 175 230 115 315 110 C400 105 470 150 480 230 C490 300 455 380 375 405 C300 428 210 400 185 335 C178 310 177 280 175 250 Z'
+
+function Orb() {
+  return (
+    <svg className="ab-hero-dot" viewBox="60 40 530 460" aria-hidden="true">
+      <defs>
+        {/* Soft edge: the outline is blurred in the mask only, so the grain
+            inside stays crisp. */}
+        <filter id="ab-orb-edge" x="-25%" y="-25%" width="150%" height="150%">
+          <feGaussianBlur stdDeviation="14" />
+        </filter>
+        <mask id="ab-orb-mask" maskUnits="userSpaceOnUse" x="60" y="40" width="530" height="460">
+          <path d={ORB_PATH} fill="#fff" filter="url(#ab-orb-edge)" />
+        </mask>
+        <filter id="ab-orb-melt" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="38" />
+        </filter>
+        <filter id="ab-orb-grain">
+          <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" />
+          <feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0" />
+        </filter>
+      </defs>
+      <g mask="url(#ab-orb-mask)">
+        <rect x="60" y="40" width="530" height="460" fill="#c95ae6" />
+        <g filter="url(#ab-orb-melt)" className="ab-dot-swirl">
+          <circle cx="210" cy="190" r="105" fill="#ff7ec9" />
+          <circle cx="420" cy="160" r="100" fill="#ff5fb8" />
+          <circle cx="330" cy="290" r="95" fill="#b36bff" />
+          <circle cx="180" cy="330" r="80" fill="#5f9dff" />
+          <circle cx="480" cy="250" r="95" fill="#5b7cff" />
+        </g>
+        <rect x="60" y="40" width="530" height="460" filter="url(#ab-orb-grain)" style={{ mixBlendMode: 'overlay' }} />
+      </g>
+    </svg>
+  )
+}
+
 export function About({ lang, backLabel }: { lang: Lang; backLabel: string }) {
   const a = about[lang]
   // Each half of the strip must be wider than the viewport, so short photo
@@ -59,7 +100,10 @@ export function About({ lang, backLabel }: { lang: Lang; backLabel: string }) {
         <div className="ab-hero-copy">
           <h1 id="ab-hero-h" className="ab-hero-title" lang="en">
             <span className="ab-hero-word">ABOUT</span>
-            <span className="ab-hero-word is-second">ME.</span>
+            <span className="ab-hero-word is-second">
+              ME
+              <Orb />
+            </span>
           </h1>
           <div className="ab-hero-text">
             <p>{a.intro.body[0]}</p>

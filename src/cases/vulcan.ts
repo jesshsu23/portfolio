@@ -1,7 +1,7 @@
 // Vulcan case study, transcribed from the designer's draft (2026-10-04).
 // Copy is the designer's own; Traditional Chinese only for now.
 
-export type Img = { src: string; alt: string; caption?: string; light?: boolean; max?: number; static?: boolean; bare?: boolean; square?: boolean; soft?: boolean; alignEnd?: boolean; panel?: boolean }
+export type Img = { src: string; alt: string; caption?: string; light?: boolean; max?: number; static?: boolean; bare?: boolean; square?: boolean; soft?: boolean; alignEnd?: boolean; alignStart?: boolean; panel?: boolean }
 
 export type Icon =
   | 'shield' | 'check' | 'award' | 'globe' | 'eye' | 'language' | 'scale'
@@ -213,7 +213,7 @@ export const vulcan: CaseData = {
           full: true,
           body: ['特定用戶為負責 AI 安全評測的工程師／資安人員：客服 AI 上線前，需要安排安全測試並確認風險，目標是針對正確的 AI 與風險範圍完成評測，取得可追溯的結果。'],
         },
-        { kind: 'image', img: I('journey', '使用者旅程圖：確認評測對象、規劃測試內容、確認並執行測試、解讀與追蹤結果四個階段的使用者行為、心中疑問與潛在痛點，以及機會與預期價值', { static: true, panel: true }) },
+        { kind: 'image', img: I('journey', '使用者旅程圖：確認評測對象、規劃測試內容、確認並執行測試、解讀與追蹤結果四個階段的使用者行為、心中疑問與潛在痛點，以及機會與預期價值', { static: true, bare: true, max: 760, alignStart: true }) },
       ],
     },
     {

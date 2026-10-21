@@ -119,7 +119,7 @@ function Shot({ img }: { img: Img }) {
   return (
     <figure
       className="cs-shot"
-      style={img.max ? { maxWidth: img.max, ...(img.alignEnd ? { justifySelf: 'end' } : null) } : undefined}
+      style={img.max ? { maxWidth: img.max, ...(img.alignEnd ? { justifySelf: 'end' } : img.alignStart ? { justifySelf: 'start' } : null) } : undefined}
     >
       {img.static ? (
         <div className="cs-zoom is-static">
