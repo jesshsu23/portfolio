@@ -1,5 +1,5 @@
 // Vulcan case study, transcribed from the designer's draft (2026-10-04).
-// Copy is the designer's own; Traditional Chinese only for now.
+// Copy is the designer's own; English lives in vulcan.en.ts.
 
 export type Img = { src: string; alt: string; caption?: string; light?: boolean; max?: number; static?: boolean; bare?: boolean; square?: boolean; soft?: boolean; alignEnd?: boolean; alignStart?: boolean; panel?: boolean }
 
@@ -8,8 +8,8 @@ export type Icon =
   | 'layers' | 'route' | 'users' | 'grid' | 'code' | 'briefcase' | 'search'
 
 export type Block =
-  | { kind: 'text'; heading?: string; body: string[]; list?: string[]; full?: boolean; center?: boolean; accentList?: boolean; rule?: boolean }
-  | { kind: 'split'; heading?: string; body: string[]; list?: string[]; img: Img; wideText?: boolean; rule?: boolean; bodyAlign?: boolean }
+  | { kind: 'text'; heading?: string; body: string[]; list?: string[]; full?: boolean; center?: boolean; accentList?: boolean; rule?: boolean; spaced?: boolean }
+  | { kind: 'split'; heading?: string; body: string[]; list?: string[]; img: Img; wideText?: boolean; wideImg?: boolean; rule?: boolean; bodyAlign?: boolean; spaced?: boolean }
   | { kind: 'splitQuestions'; heading?: string; body: string[]; groups: { title: string; items: string[] }[] }
   | { kind: 'image'; img: Img }
   | { kind: 'uikit'; label: string }
@@ -208,12 +208,12 @@ export const vulcan: CaseData = {
         },
         { kind: 'steps', title: '典型工作流程', items: ['定義範圍', '執行測試', '判讀風險', '推動修復', '上線決策'] },
         {
-          kind: 'text',
+          kind: 'split',
           heading: '使用者旅程圖',
-          full: true,
+          wideImg: true,
           body: ['特定用戶為負責 AI 安全評測的工程師／資安人員：客服 AI 上線前，需要安排安全測試並確認風險，目標是針對正確的 AI 與風險範圍完成評測，取得可追溯的結果。'],
+          img: I('journey', '使用者旅程圖：確認評測對象、規劃測試內容、確認並執行測試、解讀與追蹤結果四個階段的使用者行為、心中疑問與潛在痛點，以及機會與預期價值', { static: true, bare: true }),
         },
-        { kind: 'image', img: I('journey', '使用者旅程圖：確認評測對象、規劃測試內容、確認並執行測試、解讀與追蹤結果四個階段的使用者行為、心中疑問與潛在痛點，以及機會與預期價值', { static: true, bare: true, max: 760, alignStart: true }) },
       ],
     },
     {
@@ -290,11 +290,12 @@ export const vulcan: CaseData = {
     {
       id: 'onesleeve',
       chapter: true,
+      bandHead: true,
       headImg: { src: 'works/vulcan/onesleeve-logo.png', alt: 'OneSleeve Design System 標誌' },
       heading: 'OneSleeve Design System',
       intro: ['隨著 Vulcan 的資訊量與流程複雜度持續提升，Attack 與 Protect 在表格、篩選、表單、權限及系統狀態等企業級操作模式上反覆出現；同時，公司其他產品也面臨相似需求。若持續以單一頁面或功能為單位優化，不僅會增加重複設計與開發成本，也難以在客戶、功能與市場快速擴張時維持一致體驗。因此，我們決定在推進產品設計的同時，同步建立 OneSleeve Design System，將有效模式沉澱為可跨產品複用且具彈性的設計基礎。'],
       blocks: [
-        { kind: 'text', heading: '1. Design Token：建立跨產品的共同語言', body: ['我們以 Global、Semantic 與 Component 三層 Token 架構，將原始樣式、使用語意與元件設定分離。這讓 Vulcan 與 Cymetrics 能共享一致的狀態語言與設計規則，同時保留各產品在品牌與業務情境上的調整彈性。'] },
+        { kind: 'text', full: true, heading: '1. Design Token：建立跨產品的共同語言', body: ['我們以 Global、Semantic 與 Component 三層 Token 架構，將原始樣式、使用語意與元件設定分離。這讓 Vulcan 與 Cymetrics 能共享一致的狀態語言與設計規則，同時保留各產品在品牌與業務情境上的調整彈性。'] },
         {
           kind: 'table',
           head: ['Token 層級', '說明', '範例'],
@@ -304,8 +305,8 @@ export const vulcan: CaseData = {
             ['組件層 Component', '綁定特定 UI 組件，做最精細的控制', 'button-primary-bg = color-brand-primary'],
           ],
         },
-        { kind: 'split', heading: '2. 規劃命名原則', body: ['為避免共用 Token 過度冗長，或特定業務情境被過度抽象，我建立了 Standard 與 Contextual 雙軌命名策略。高複用樣式採用精簡且可預測的通用命名；只有在產品範圍或業務語意不可省略時，才加入情境前綴。', '這套規則讓設計與工程能快速理解 Token 用途，同時控制命名複雜度，保留跨產品擴充的彈性。'], img: I('naming', 'Standard 與 Contextual 雙軌命名策略：Standard 為高複用、可預測的 {Component}-{Property}-{State}，例如 text-hover；Contextual 僅在業務語意不可省略時加入 Scope，例如 sidebar-text-active', { static: true, bare: true }) },
-        { kind: 'text', full: true, heading: '3. Component Architecture：從基礎元件延伸至產品模式', body: ['OneSleeve 採用四層架構：Foundations、Basic Components、Composite Components 與 Product Patterns。基礎元件確保視覺與操作一致，複合元件及產品模式則承接表格、篩選、表單、側邊面板與複雜工作區等企業級情境。'] },
+        { kind: 'split', spaced: true, heading: '2. 規劃命名原則', body: ['為避免共用 Token 過度冗長，或特定業務情境被過度抽象，我建立了 Standard 與 Contextual 雙軌命名策略。高複用樣式採用精簡且可預測的通用命名；只有在產品範圍或業務語意不可省略時，才加入情境前綴。', '這套規則讓設計與工程能快速理解 Token 用途，同時控制命名複雜度，保留跨產品擴充的彈性。'], img: I('naming', 'Standard 與 Contextual 雙軌命名策略：Standard 為高複用、可預測的 {Component}-{Property}-{State}，例如 text-hover；Contextual 僅在業務語意不可省略時加入 Scope，例如 sidebar-text-active', { static: true, bare: true }) },
+        { kind: 'text', full: true, spaced: true, heading: '3. Component Architecture：從基礎元件延伸至產品模式', body: ['OneSleeve 採用四層架構：Foundations、Basic Components、Composite Components 與 Product Patterns。基礎元件確保視覺與操作一致，複合元件及產品模式則承接表格、篩選、表單、側邊面板與複雜工作區等企業級情境。'] },
         {
           kind: 'stack',
           items: [
@@ -320,7 +321,7 @@ export const vulcan: CaseData = {
     {
       id: 'workspace',
       heading: '建立可組合的資料工作區',
-      dark: true,
+      bandCont: true,
       blocks: [
         { kind: 'video', src: 'works/vulcan/workspace-flow.mp4?v=4', poster: 'works/vulcan/workspace-flow-poster.jpg', ratio: '960 / 600', label: '從基礎元件、表格到完整頁面，逐層組合成資料工作區' },
         { kind: 'text', heading: '同一組元件適應不同容器情境', body: [] },
@@ -330,6 +331,7 @@ export const vulcan: CaseData = {
     {
       id: 'states',
       wide: true,
+      bandCont: true,
       heading: '4. 以一致狀態協助風險判讀',
       intro: ['當大量資產與工具需要同時呈現，使用者不只需要辨識單一節點，也必須理解其上下游關聯與潛在風險。我們以 Asset Card 為核心，統一 Default、Hover、Selected、Connected 與 Non-Connect 等狀態，並透過邊框、連線與資訊層級建立一致回饋，協助使用者聚焦目標、辨識關聯路徑，進一步判斷影響範圍與處理優先順序。'],
       blocks: [{ kind: 'image', img: I('asset-states', 'Asset Card 五種狀態（Default、Hover、Selected、Connected、Non-Connect），由狀態形成 Overview、Focus、Trace Relationship 的判讀規則，並應用於完整 Topology：標示目前選擇、關聯路徑、風險提示與弱化無關節點', { static: true, bare: true }) }],
@@ -337,6 +339,7 @@ export const vulcan: CaseData = {
     {
       id: 'rtl',
       wide: true,
+      bandCont: true,
       heading: '5. 為多語市場建立雙向介面',
       intro: ['以 LTR／RTL 元件支援跨語言與跨市場擴張，共用相同的 Token、層級與狀態規則，依閱讀方向調整排列、對齊與操作位置。'],
       blocks: [{ kind: 'pair', imgs: [I('ltr', '由左至右（LTR）的 Basic Information 頁面：導覽在左、操作按鈕在右', { caption: 'LTR', static: true, bare: true, square: true }), I('rtl', '由右至左（RTL）的同一頁面：導覽移到右側，標題、欄位與按鈕位置左右鏡像', { caption: 'RTL', static: true, bare: true, square: true })] }],
@@ -344,6 +347,7 @@ export const vulcan: CaseData = {
     {
       id: 'cross',
       wide: true,
+      bandCont: true,
       heading: '6. 跨產品應用',
       intro: ['為確保公司旗下產品維持一致的操作體驗與品牌識別，我們將 OneSleeve 擴展並應用至其他產品。透過共用的設計語言、元件規則與互動模式，各產品能在保留業務差異的同時延續一致體驗，並提升設計與開發效率。'],
       blocks: [

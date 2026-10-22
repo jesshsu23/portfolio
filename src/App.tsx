@@ -241,7 +241,7 @@ function App() {
       ) : route ? (
         <main id="main" className="page">
           <Suspense fallback={null}>
-            <CaseRoute id={route} backLabel={t.works.back} />
+            <CaseRoute id={route} lang={lang} backLabel={t.works.back} />
           </Suspense>
         </main>
       ) : (

@@ -1,5 +1,5 @@
 // LazyOtter case study, transcribed from the designer's draft (2026-10-12).
-// Copy is the designer's own; Traditional Chinese only for now.
+// Copy is the designer's own; English lives in lazyotter.en.ts.
 
 import type { CaseData, Img } from './vulcan'
 

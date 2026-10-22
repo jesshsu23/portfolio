@@ -43,7 +43,7 @@ export function SiteMarquee({ label }: { label: string }) {
       target="_blank"
       rel="noreferrer"
       className="sm-link"
-      aria-label={`${label}（開啟 LazyOtter 官網）`}
+      aria-label={label}
     >
     <figure ref={ref} className="sm">
       <div className="sm-stage">

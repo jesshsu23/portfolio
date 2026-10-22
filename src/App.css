@@ -1005,6 +1005,11 @@
   padding-top: clamp(80px, 9vw, 128px);
 }
 
+/* Opens a new numbered item inside a section: extra air above it. */
+.cs-section > .is-spaced {
+  margin-top: clamp(32px, 4vw, 64px);
+}
+
 .cs-section.has-divider {
   margin-top: clamp(80px, 9vw, 128px);
   padding-top: clamp(80px, 9vw, 128px);
@@ -1298,6 +1303,11 @@
 
 .cs-split.is-wide-text .cs-text p {
   max-width: none;
+}
+
+/* Dense diagrams: the image takes most of the row so its small type stays legible. */
+.cs-split.is-wide-img {
+  grid-template-columns: minmax(0, 0.5fr) minmax(0, 1.5fr);
 }
 
 .cs-split {
@@ -2107,6 +2117,7 @@
 @media (max-width: 760px) {
   .cs-bg,
   .cs-split,
+  .cs-split.is-wide-img,
   .cs-goal,
   .cs-cards,
   .cs-frame-2 {

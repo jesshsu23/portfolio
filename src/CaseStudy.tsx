@@ -1,4 +1,4 @@
-import { useEffect, useRef, type CSSProperties, type ReactNode } from 'react'
+import { createContext, useContext, useEffect, useRef, type CSSProperties, type ReactNode } from 'react'
 import { AlertProto } from './AlertProto'
 import { Compare } from './Compare'
 import { LoopVideo } from './LoopVideo'
@@ -6,8 +6,33 @@ import { StackPreview } from './StackPreview'
 import { SiteMarquee } from './SiteMarquee'
 import { UiKitMarquee } from './UiKitMarquee'
 import type { Block, CaseData, Icon, Img, Section } from './cases/vulcan'
+import type { Lang } from './content'
 
 const base = import.meta.env.BASE_URL
+
+// Interface labels the case data doesn't carry.
+const UI = {
+  zh: {
+    background: '專案背景',
+    allQuestions: (n: number) => `查看全部 ${n} 題`,
+    questions: '訪談問題',
+    close: '關閉',
+    palette: '品牌色彩',
+    colon: '：',
+    openSite: '（開啟 LazyOtter 官網）',
+  },
+  en: {
+    background: 'Background',
+    allQuestions: (n: number) => `See all ${n} questions`,
+    questions: 'Interview questions',
+    close: 'Close',
+    palette: 'Brand colours',
+    colon: ': ',
+    openSite: ' (opens the LazyOtter website)',
+  },
+}
+
+const UiText = createContext(UI.zh)
 
 // One stroke family for every tile icon, drawn on a 24px grid.
 const ICONS: Record<Icon, ReactNode> = {
@@ -213,6 +238,7 @@ function QuestionList({ groups, peek }: { groups: { title: string; items: string
 
 // Shows the first nine questions fading out; click opens the full sheet.
 function Questions({ groups }: { groups: { title: string; items: string[] }[] }) {
+  const ui = useContext(UiText)
   const dlg = useRef<HTMLDialogElement>(null)
   const total = groups.reduce((n, g) => n + g.items.length, 0)
   return (
@@ -220,7 +246,7 @@ function Questions({ groups }: { groups: { title: string; items: string[] }[] })
       <button type="button" className="cs-questions is-peek" onClick={() => dlg.current?.showModal()}>
         <QuestionList groups={groups} peek={9} />
         <span className="cs-questions-more">
-          查看全部 {total} 題
+          {ui.allQuestions(total)}
           <svg className="icon" viewBox="0 0 16 16" aria-hidden="true">
             <path d="M4.5 11.5l7-7M5.5 4.5h6v6" />
           </svg>
@@ -229,13 +255,13 @@ function Questions({ groups }: { groups: { title: string; items: string[] }[] })
       <dialog
         ref={dlg}
         className="cs-dialog"
-        aria-label="訪談問題"
+        aria-label={ui.questions}
         onClick={(e) => {
           if (e.target === e.currentTarget) e.currentTarget.close()
         }}
       >
         <div className="cs-questions">
-          <button type="button" className="cs-dialog-close" aria-label="關閉" onClick={() => dlg.current?.close()}>
+          <button type="button" className="cs-dialog-close" aria-label={ui.close} onClick={() => dlg.current?.close()}>
             <svg className="icon" viewBox="0 0 16 16" aria-hidden="true">
               <path d="M4 4l8 8M12 4l-8 8" />
             </svg>
@@ -248,10 +274,11 @@ function Questions({ groups }: { groups: { title: string; items: string[] }[] })
 }
 
 function BlockView({ b }: { b: Block }) {
+  const ui = useContext(UiText)
   switch (b.kind) {
     case 'text':
       return (
-        <div className={`cs-text${b.full ? ' is-full' : ''}${b.center ? ' is-center' : ''}${b.rule ? ' has-rule' : ''}`}>
+        <div className={`cs-text${b.full ? ' is-full' : ''}${b.center ? ' is-center' : ''}${b.rule ? ' has-rule' : ''}${b.spaced ? ' is-spaced' : ''}`}>
           {b.heading && <h3>{b.heading}</h3>}
           <Paragraphs body={b.body} />
           {b.list && (
@@ -267,7 +294,7 @@ function BlockView({ b }: { b: Block }) {
       if (b.bodyAlign && b.heading) {
         // Heading sits above both columns' start, so the image lines up with the first paragraph.
         return (
-          <div className={`cs-split is-body-align${b.rule ? ' has-rule' : ''}`}>
+          <div className={`cs-split is-body-align${b.rule ? ' has-rule' : ''}${b.spaced ? ' is-spaced' : ''}`}>
             <div className="cs-text cs-split-head">
               <h3>{b.heading}</h3>
             </div>
@@ -279,7 +306,7 @@ function BlockView({ b }: { b: Block }) {
         )
       }
       return (
-        <div className={`cs-split${b.wideText ? ' is-wide-text' : ''}${b.rule ? ' has-rule' : ''}`}>
+        <div className={`cs-split${b.wideText ? ' is-wide-text' : ''}${b.wideImg ? ' is-wide-img' : ''}${b.rule ? ' has-rule' : ''}${b.spaced ? ' is-spaced' : ''}`}>
           <div className="cs-text">
             {b.heading && <h3>{b.heading}</h3>}
             <Paragraphs body={b.body} />
@@ -300,7 +327,7 @@ function BlockView({ b }: { b: Block }) {
     case 'alerts':
       return <AlertProto label={b.label} />
     case 'site':
-      return <SiteMarquee label={b.label} />
+      return <SiteMarquee label={b.label + ui.openSite} />
     case 'uikit':
       return <UiKitMarquee label={b.label} />
     case 'image':
@@ -488,9 +515,9 @@ function BlockView({ b }: { b: Block }) {
           </div>
           {/* Colour blocks sized by weight, as in the draft: background,
               accent, brand navy, white. */}
-          <ul className="cs-mosaic" aria-label="品牌色彩">
+          <ul className="cs-mosaic" aria-label={ui.palette}>
             {b.items.map((c) => (
-              <li key={c.hex} style={{ background: c.hex }} aria-label={`${c.name} ${c.hex}：${c.role}`} />
+              <li key={c.hex} style={{ background: c.hex }} aria-label={`${c.name} ${c.hex}${ui.colon}${c.role}`} />
             ))}
           </ul>
         </div>
@@ -655,9 +682,11 @@ function SectionView({ s, goals }: { s: Section; goals?: CaseData['goals'] }) {
   )
 }
 
-export function CaseStudy({ c, backLabel }: { c: CaseData; backLabel: string }) {
+export function CaseStudy({ c, lang, backLabel }: { c: CaseData; lang: Lang; backLabel: string }) {
+  const ui = UI[lang]
   return (
-    <article className="cs" lang="zh-Hant">
+    <UiText.Provider value={ui}>
+    <article className="cs" lang={lang === 'zh' ? 'zh-Hant' : 'en'}>
       <a className="cs-back" href="#work" lang="en">
         <svg className="icon" viewBox="0 0 16 16" aria-hidden="true">
           <path d="M13 8H3M7 4L3 8l4 4" />
@@ -704,7 +733,7 @@ export function CaseStudy({ c, backLabel }: { c: CaseData; backLabel: string }) 
         {c.context ? (
           <div className="cs-bg">
             <div className="cs-section-head">
-              <h2 id="cs-bg">專案背景</h2>
+              <h2 id="cs-bg">{ui.background}</h2>
               <Paragraphs body={c.background} />
             </div>
             <figure className="cs-bg-shot">
@@ -713,7 +742,7 @@ export function CaseStudy({ c, backLabel }: { c: CaseData; backLabel: string }) 
           </div>
         ) : (
           <div className="cs-section-head is-full">
-            <h2 id="cs-bg">專案背景</h2>
+            <h2 id="cs-bg">{ui.background}</h2>
             <Paragraphs body={c.background} />
           </div>
         )}
@@ -753,5 +782,6 @@ export function CaseStudy({ c, backLabel }: { c: CaseData; backLabel: string }) 
         {backLabel}
       </a>
     </article>
+    </UiText.Provider>
   )
 }

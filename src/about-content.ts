@@ -47,7 +47,7 @@ export const about: Record<Lang, AboutContent> = {
       photoAlt: 'Portrait of Jess Hsu',
       body: [
         'Hi, I’m Jess,',
-        'a product designer with solid design craft and a working grasp of technology. I use structured analysis to get to the real problem, then turn user needs into product experiences that are easy to use and worth using. I care about what users need, and just as much about technical feasibility and how a product creates value for the business.',
+        'a product designer with strong craft and a solid understanding of technology. I use structured analysis to find the real problem, then turn user needs into products that are easy to use and worth using. I care about what users need, and just as much about what engineering can build and how the product creates value for the business.',
       ],
     },
     skills: {
@@ -55,7 +55,7 @@ export const about: Record<Lang, AboutContent> = {
       groups: [
         {
           title: 'Product Design',
-          items: ['UX/UI Design', 'Design System', 'Information Architecture', 'Interaction Design', 'Prototyping (Figma)', 'Basic coding literacy'],
+          items: ['UX/UI Design', 'Design System', 'Information Architecture', 'Interaction Design', 'Prototyping (Figma)', 'Coding fundamentals'],
         },
         {
           title: 'UX Research',
@@ -63,23 +63,23 @@ export const about: Record<Lang, AboutContent> = {
         },
         {
           title: 'Product Strategy',
-          items: ['Business thinking', 'Cross-functional collaboration', 'Independent thinking', 'Ownership & leadership', 'Problem solving & decisions', 'Project & risk management'],
+          items: ['Business acumen', 'Cross-functional collaboration', 'Independent thinking', 'Ownership & leadership', 'Problem solving & decision-making', 'Project & risk management'],
         },
       ],
     },
     experience: { heading: ['Work ', 'Experience'], jobs },
     education: { heading: ['', 'Education'], schools },
     practice: {
-      heading: 'Doing what I love, and creating value of my own',
-      body: 'Outside of work I love to learn, and I regularly join external courses and workshops to keep growing. I like passing on what I learn, so I started writing, ran a fan page, and became a UI/UX tutor and instructor. I also volunteer to help associations run their events, hoping to make Taiwan’s UX community a little better.',
+      heading: 'Doing what I love, and making it count',
+      body: 'Outside work, I keep learning through courses and workshops. I like passing on what I learn, so I started writing, ran a design page on Facebook, and now teach UI/UX as a tutor and instructor. I also volunteer with industry associations to help run their events, in the hope of making Taiwan’s UX community a little stronger.',
     },
     workshop: {
       heading: ['UXUI ', 'Workshop'],
-      body: 'I plan UI/UX course series around what students need to learn. Built on hands-on practice and interaction, they help students understand concepts by designing, and build their problem-solving ability step by step.',
+      body: 'I design UI/UX courses around what each group of students needs. The classes are hands-on: students learn the concepts by designing, and build their problem-solving skills one exercise at a time.',
       events: [
         { title: 'National Taiwan University of Science and Technology – EMBA', period: '2021/04 – 2021/06' },
         { title: 'Yuan Ze University – Continuing Education', period: '2022/06 – 2023/08' },
-        { title: 'National Chengchi University – New Media Creative Action', period: '2022/06 – 2023/08' },
+        { title: 'National Chengchi University – New Media Creative Action (general education)', period: '2022/06 – 2023/08' },
         { title: 'National Tsing Hua University – DTDA', period: '2024/10' },
         { title: 'UXCX Annual Trends Joint Workshop', period: '2023, 2024' },
         { title: 'Mobile App Innovation Contest – UI/UX Design', period: '2026/04' },
@@ -87,13 +87,13 @@ export const about: Record<Lang, AboutContent> = {
     },
     uxtw: {
       title: 'UXTW Taiwan User Experience Design Association',
-      body: 'I volunteered on UXTW’s education team, helping with the annual course plan, instructor proposals, and event coordination to promote design knowledge sharing and community exchange.',
+      body: 'I volunteered on UXTW’s education team, helping plan the annual course programme, review instructor proposals and coordinate events, to get more design knowledge shared across the community.',
       period: '2020 – 2021',
       photo: 'uxtw',
     },
     mentorship: {
       heading: 'The MentorShip',
-      body: 'Selected by the organisers as a navigator (team leader) for the 4th MentorShip programme, I led my team through workshop discussions, encouraging the exchange of views and teamwork.',
+      body: 'I was selected as a navigator (team lead) for the 4th MentorShip programme, and led my group through the workshop sessions, keeping the discussion open and the team working together.',
       photos: mentorshipPhotos,
     },
   },
