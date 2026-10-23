@@ -212,9 +212,9 @@ export function About({ lang, backLabel }: { lang: Lang; backLabel: string }) {
 
         <div className="ab-uxtw card" {...reveal()}>
           <div className="ab-uxtw-copy">
+            <span className="ab-period">{a.uxtw.period}</span>
             <h3>{a.uxtw.title}</h3>
             <p>{a.uxtw.body}</p>
-            <span className="pill">{a.uxtw.period}</span>
           </div>
           <Photo src={`${base}${a.uxtw.photo}.jpg`} alt={a.uxtw.title} pending={a.photoPending} />
         </div>

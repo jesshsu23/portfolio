@@ -28,10 +28,10 @@ function readLang(): Lang {
   return 'en'
 }
 
-function ArrowUpRight() {
+function ArrowRight() {
   return (
     <svg className="icon" viewBox="0 0 16 16" aria-hidden="true">
-      <path d="M4.5 11.5l7-7M5.5 4.5h6v6" />
+      <path d="M2.5 8h11M9.5 4l4 4-4 4" />
     </svg>
   )
 }
@@ -301,7 +301,7 @@ function App() {
                   {w.id === 'cymetrics' && <span className="work-glass" aria-hidden="true" />}
                 </div>
                 <div className="work-copy">
-                  <span className="pill">{w.period}</span>
+                  <span className="work-period">{w.period}</span>
                   <h3 lang="en">
                     {w.href ? (
                       <a className="work-link" href={w.href}>
@@ -313,9 +313,13 @@ function App() {
                   </h3>
                   <p>{w.summary}</p>
                   <div className="work-foot">
-                    <span>{w.href ? t.works.open : t.works.status}</span>
-                    <span className={w.href ? 'round-button' : 'round-button is-pending'} aria-hidden="true">
-                      <ArrowUpRight />
+                    {/* Decorative on a linked card (the stretched title link covers it);
+                        without a link it shows the disabled state. */}
+                    <span className={w.href ? 'see-more' : 'see-more is-disabled'} aria-hidden={w.href ? true : undefined}>
+                      <span className="see-more-circle" aria-hidden="true">
+                        <ArrowRight />
+                      </span>
+                      <span className="see-more-text">{w.href ? t.works.open : t.works.status}</span>
                     </span>
                   </div>
                 </div>

@@ -82,13 +82,13 @@ export const content: Record<Lang, Content> = {
     works: {
       heading: ['Selected ', 'Works'],
       imageAlt: 'product interface on laptop and phone',
-      open: 'View case study',
+      open: 'See More',
       back: 'Back to work',
       status: 'Case study in preparation',
       items: [
-        { id: 'vulcan', href: '#/work/vulcan', name: 'Vulcan', period: '2025-Present', summary: 'A tool for the safety, security, and compliance of generative AI.' },
-        { id: 'lazyotter', href: '#/work/lazyotter', name: 'LazyOtter', period: '2022-2024', summary: 'A crypto yield aggregator.' },
-        { id: 'cymetrics', name: 'Cymetrics', period: '2021-2022', summary: 'A SaaS platform for security testing.' },
+        { id: 'vulcan', href: '#/work/vulcan', name: 'Vulcan', period: '2025-Present', summary: 'An enterprise GenAI security platform that detects vulnerabilities in companies’ AI applications.' },
+        { id: 'lazyotter', href: '#/work/lazyotter', name: 'LazyOtter', period: '2022-2024', summary: 'A DeFi yield aggregator that lowers the barrier to DeFi with risk tiers and clear information.' },
+        { id: 'cymetrics', name: 'Cymetrics', period: '2021-2022', summary: 'A SaaS security testing platform that helps companies find and fix vulnerabilities.' },
       ],
     },
     different: {
@@ -137,13 +137,13 @@ export const content: Record<Lang, Content> = {
     works: {
       heading: ['Selected ', 'Works'],
       imageAlt: '產品介面展示',
-      open: '查看案例',
+      open: 'See More',
       back: 'Back to work',
       status: '案例整理中',
       items: [
-        { id: 'vulcan', href: '#/work/vulcan', name: 'Vulcan', period: '2025-Present', summary: 'GenAI 安全、保障和合規工具' },
-        { id: 'lazyotter', href: '#/work/lazyotter', name: 'LazyOtter', period: '2022-2024', summary: '加密貨幣收益聚合器' },
-        { id: 'cymetrics', name: 'Cymetrics', period: '2021-2022', summary: 'SaaS 資訊安全檢測平台' },
+        { id: 'vulcan', href: '#/work/vulcan', name: 'Vulcan', period: '2025-Present', summary: '企業級 GenAI 安全平台，協助企業檢測 AI 應用的漏洞與潛在風險。' },
+        { id: 'lazyotter', href: '#/work/lazyotter', name: 'LazyOtter', period: '2022-2024', summary: 'DeFi 收益聚合器，以風險分級與透明資訊，降低一般使用者參與 DeFi 的操作門檻。' },
+        { id: 'cymetrics', name: 'Cymetrics', period: '2021-2022', summary: '為企業提供資訊安全檢測的 SaaS 平台，協助團隊找出弱點並追蹤修復進度。' },
       ],
     },
     different: {
