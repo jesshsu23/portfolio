@@ -131,11 +131,11 @@ export const lazyotterEn: Record<string, string> = {
     'I have a technical background, but at first I still needed a friend who knew the space to walk me through it. Depositing was too hard and too complicated, and when something went wrong, the answer was hard to find.',
   '安全穩定、簡單操作、有利潤空間的平台將會很吸引我': 'A platform that’s safe, stable, simple to use and still profitable would win me over.',
   'MVP 範圍：聚焦理解、比較與基本操作': 'MVP scope: understanding, comparing and the basics',
-  '訪談顯示，使用者的需求涵蓋入門教學、策略比較，以及資產自動化等不同面向。不過，以目前的團隊規模來看，第一階段應先聚焦於 LazyOtter 的核心價值：讓使用者看懂收益與風險、快速比較不同選項，並完成基本操作。':
-    'The interviews surfaced needs ranging from beginner education to strategy comparison and automated asset management. Given the size of the team, phase one stuck to LazyOtter’s core value: help users understand yield and risk, compare options quickly and complete the basic actions.',
+  '雖然在訪談中有提到，新手需要更詳細的入門教學，也涵蓋策略比較與資產自動化等面向，但是考量到團隊規模與開發時程，我們決定在第一階段優先聚焦核心價值：幫助使用者理解收益與風險、快速比較不同選項，並降低基本操作的門檻。':
+    'The interviews showed that beginners wanted more detailed onboarding, and also touched on strategy comparison and automated asset management. Given our team size and development timeline, we chose to focus phase one on the core value: help users understand yield and risk, compare options quickly, and lower the barrier to basic actions.',
   '優先處理': 'In scope',
   '清楚呈現收益來源、風險與必要條件': 'Show yield sources, risks and requirements clearly',
-  '讓不同策略可以被比較': 'Make strategies easy to compare',
+  '由我們精選出不同、可被比較的策略': 'Curate a set of distinct, comparable strategies',
   '在核心流程中提供必要說明與回饋': 'Explain and give feedback where the core flow needs it',
   '提供基本資產狀況與風險資訊': 'Show basic asset status and risk information',
   '暫不作為第一階段主軸': 'Not a focus for phase one',
